@@ -6,7 +6,8 @@ const detail = document.querySelector('#detail'), qr = document.querySelector('#
 const images = new Map(), field = document.createElement('canvas'), fctx = field.getContext('2d');
 let selected = null, hovered = null, drag = null, W, H, dpr, fw, fh;
 
-for (const n of nodes) { n.home = { x: n.x, y: n.y }; n.vx = 0; n.vy = 0; const image = new Image(); image.onload = () => images.set(n.id, image); image.src = n.image; }
+const asset = path => `${import.meta.env.BASE_URL}${path.replace(/^\//, '')}`;
+for (const n of nodes) { n.home = { x: n.x, y: n.y }; n.vx = 0; n.vy = 0; const image = new Image(); image.onload = () => images.set(n.id, image); image.src = asset(n.image); }
 function resize() { dpr = devicePixelRatio || 1; W = innerWidth; H = innerHeight; canvas.width = W * dpr; canvas.height = H * dpr; ctx.setTransform(dpr, 0, 0, dpr, 0, 0); fw = Math.floor(W); fh = Math.floor(H); field.width = fw; field.height = fh; fctx.imageSmoothingEnabled = true; }
 function pos(n) { return { x: n.x * W, y: n.y * H }; }
 function radiusOf(n) { return Math.max(38, n.radius * Math.min(W, H) / 900) * (n === selected ? 1.12 : 1); }
